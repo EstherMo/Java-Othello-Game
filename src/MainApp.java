@@ -6,9 +6,30 @@ public class MainApp extends PApplet {
         PApplet.main("MainApp", args);
     }
 
-    float x = 8;
+    int rows, columns;
+    int colwidth, rowheight;
+
     public void settings(){
-        size(1024,768);
+        //size(1024,768);
+        size( 600, 600);
+        smooth();
+        rows = 8;
+        columns = 8;
+
+        colwidth = width/columns;
+        rowheight = height/rows;
+
+        //multidimensional array to represent the grid squares
+
+        CellState[][] board = new CellState[rows][columns];
+
+        //Setup the 4 starting pieces
+
+        board[4][3] = CellState.BLACK;
+        board[3][4] = CellState.BLACK;
+        board[3][3] = CellState.WHITE;
+        board[4][4] = CellState.WHITE;
+
 
     }
     public void setup(){
@@ -16,15 +37,22 @@ public class MainApp extends PApplet {
 
     }
     public void draw(){
-        background(244, 75, 66);
-        stroke(0);
-        fill(127,0,0);
-        ellipse(width/2,height/2,x,x);
+        {
+            //green background
+            background(0, 155, 30);
+            stroke(0);
+            strokeWeight(4);
 
-        x++;
+            //creates the grid lines
 
-        if (x > width) {
-            x = 0;
+            for (int i=0; i<rows; i++)
+            {
+                line (0, i*height/rows, width, i*height/rows);
+            }
+            for (int j=0; j<columns; j++)
+            {
+                line (j*width/columns, 0, j*width/columns, height);
+            }
         }
     }
 
