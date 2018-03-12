@@ -17,7 +17,9 @@ public class MainApp extends PApplet {
     boolean playerWhite = true;
     CellState  oppositeColor;
     CellState playersColor;
-    boolean validMove;
+    boolean isValidMove;
+    boolean displayInvalidMove;
+    ArrayList<Boolean> validMovesArray= new ArrayList<>();
 
     //create hashmap of pieces to be reversed. The map will store the row and col of boxes that need to be reversed as key/value pairs
     HashMap<Integer,Integer> reverseMap = new HashMap<>();
@@ -51,20 +53,10 @@ public class MainApp extends PApplet {
         board[3][3] = CellState.WHITE;
         board[4][4] = CellState.WHITE;
 
-        //click on square
-
-//        int row = mouseY / (rowheight);
-//        int col = mouseX / (colwidth);
-
-//        if (board[row][col] == CellState.BLACK) {
-//
-//        }
-
 
     }
 
     public void setup() {
-
 
     }
 
@@ -84,6 +76,11 @@ public class MainApp extends PApplet {
             drawGrid();
             drawPieces();
 
+            //show invalid move error message, need to format it better
+//            if (displayInvalidMove){
+//                //fill(255,0,0);
+//                text("invalid move", 400, 500);
+//             }
 
 
 
@@ -112,12 +109,13 @@ public class MainApp extends PApplet {
         if(board[row][col] == CellState.EMPTY){
             reverseMap.clear();
             validMove(row,col);
-            if(validMove==true){
+            if(isValidMove==true){
                 placePieces(row,col);
                 playerWhite = !playerWhite; //switch players
             }else{
                 System.out.println("this isnt a valid move");
             }
+            validMovesArray.clear();
         }
     }
 
@@ -220,30 +218,32 @@ public class MainApp extends PApplet {
                         leftCount ++;
                     } else if (board[row][col-leftCount]==playersColor){
                         reversePieces();
-                        validMove = true;
+                        validMovesArray.add(true);
                         break;
                     } else {
-                        validMove = false;
+                        validMovesArray.add(false);
+                        displayInvalidMove = true;
                         break;
                     }
                     System.out.println(reverseMap);
                 }
 
-//            } else if(key =="rightSide"){
-//                int rightCount = 1;
-//                while(col+rightCount <=7 || board[row][col+rightCount]==CellState.EMPTY ){
-//                    if(board[row][col+rightCount]==oppositeColor){ // if nearby piece is also black
-//                        reverseMap.put(row,col+rightCount);
-//                        rightCount ++;
-//                    } else if (board[row][col+rightCount]==playersColor){
-//                        reversePieces();
-//                        validMove = true;
-//                        break;
-//                    } else {
-//                        validMove = false;
-//                    }
-//                    System.out.println(reverseMap);
-//                }
+            } else if(key =="rightSide"){
+                int rightCount = 1;
+                while(col+rightCount <=7 || board[row][col+rightCount]==CellState.EMPTY ){
+                    if(board[row][col+rightCount]==oppositeColor){ // if nearby piece is also black
+                        reverseMap.put(row,col+rightCount);
+                        rightCount ++;
+                    } else if (board[row][col+rightCount]==playersColor){
+                        reversePieces();
+                        validMovesArray.add(true);
+                        break;
+                    } else {
+                        validMovesArray.add(false);
+                        break;
+                    }
+                    System.out.println(reverseMap);
+                }
 
             } else if (key == "north"){
 
@@ -259,6 +259,13 @@ public class MainApp extends PApplet {
 
             }else{
 
+            }
+
+            //check if there are any valid moves in this arraylist, set validmoves to true if yes
+            if (validMovesArray.contains(true)){
+                isValidMove = true;
+            } else {
+                isValidMove= false;
             }
 
         }
