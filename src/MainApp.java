@@ -220,7 +220,8 @@ public class MainApp extends PApplet {
                         reversePieces();
                         validMovesArray.add(true);
                         break;
-                    } else {
+                    } else if(board[row][col-leftCount]==CellState.EMPTY){
+                        reverseMap.clear();  //clear reverseMap
                         validMovesArray.add(false);
                         displayInvalidMove = true;
                         break;
@@ -238,7 +239,8 @@ public class MainApp extends PApplet {
                         reversePieces();
                         validMovesArray.add(true);
                         break;
-                    } else {
+                    } else if(board[row][col+rightCount]==CellState.EMPTY){
+                        reverseMap.clear();
                         validMovesArray.add(false);
                         break;
                     }
@@ -246,6 +248,22 @@ public class MainApp extends PApplet {
                 }
 
             } else if (key == "north"){
+                int northCount = 1;
+                while(row-northCount >=0 || board[row-northCount][col]==CellState.EMPTY ){
+                    if(board[row-northCount][col]==oppositeColor){ // if nearby piece is also black
+                        reverseMap.put(row-northCount,col);
+                        northCount ++;
+                    } else if (board[row-northCount][col]==playersColor){
+                        reversePieces();
+                        validMovesArray.add(true);
+                        break;
+                    } else if (board[row-northCount][col]==CellState.EMPTY){
+                        reverseMap.clear();
+                        validMovesArray.add(false);
+                        break;
+                    }
+                    System.out.println(reverseMap);
+                }
 
             } else if (key == "south"){
 
