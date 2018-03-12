@@ -221,18 +221,19 @@ public class MainApp extends PApplet {
                         validMovesArray.add(true);
                         break;
                     } else if(board[row][col-leftCount]==CellState.EMPTY){
-                        reverseMap.clear();  //clear reverseMap
+                        System.out.println(reverseMap);
+                        reverseMap.clear();  //clear reverseMap if cell is empty
                         validMovesArray.add(false);
                         displayInvalidMove = true;
                         break;
                     }
-                    System.out.println(reverseMap);
+                    System.out.println("leftside" +reverseMap);
                 }
 
             } else if(key =="rightSide"){
                 int rightCount = 1;
                 while(col+rightCount <=7 || board[row][col+rightCount]==CellState.EMPTY ){
-                    if(board[row][col+rightCount]==oppositeColor){ // if nearby piece is also black
+                    if(board[row][col+rightCount]==oppositeColor){
                         reverseMap.put(row,col+rightCount);
                         rightCount ++;
                     } else if (board[row][col+rightCount]==playersColor){
@@ -240,17 +241,18 @@ public class MainApp extends PApplet {
                         validMovesArray.add(true);
                         break;
                     } else if(board[row][col+rightCount]==CellState.EMPTY){
+                        System.out.println(reverseMap);
                         reverseMap.clear();
                         validMovesArray.add(false);
                         break;
                     }
-                    System.out.println(reverseMap);
+                    System.out.println("rightside" + reverseMap);
                 }
 
             } else if (key == "north"){
                 int northCount = 1;
                 while(row-northCount >=0 || board[row-northCount][col]==CellState.EMPTY ){
-                    if(board[row-northCount][col]==oppositeColor){ // if nearby piece is also black
+                    if(board[row-northCount][col]==oppositeColor){
                         reverseMap.put(row-northCount,col);
                         northCount ++;
                     } else if (board[row-northCount][col]==playersColor){
@@ -262,19 +264,105 @@ public class MainApp extends PApplet {
                         validMovesArray.add(false);
                         break;
                     }
-                    System.out.println(reverseMap);
+                    System.out.println("North" + reverseMap);
                 }
 
             } else if (key == "south"){
+                int southCount = 1;
+                while(row+southCount <=7|| board[row+southCount][col]==CellState.EMPTY ){
+                    if(board[row+southCount][col]==oppositeColor){
+                        reverseMap.put(row+southCount,col);
+                        southCount ++;
+                    } else if (board[row+southCount][col]==playersColor){
+                        reversePieces();
+                        validMovesArray.add(true);
+                        break;
+                    } else if (board[row+southCount][col]==CellState.EMPTY){
+                        reverseMap.clear();
+                        validMovesArray.add(false);
+                        break;
+                    }
+                    System.out.println("south" +reverseMap);
+                }
 
             } else if(key == "northEast"){
-
+                int NERowCount = 1;
+                int NEColCount = 1;
+                while(row - NERowCount >= 0|| col + NEColCount <= 7 || board[row - NERowCount][col + NEColCount]==CellState.EMPTY ){
+                    if(board[row - NERowCount][col + NEColCount]==oppositeColor){
+                        reverseMap.put(row - NERowCount,col + NEColCount);
+                        NERowCount ++;
+                        NEColCount ++;
+                    } else if (board[row - NERowCount][col + NEColCount]==playersColor){
+                        reversePieces();
+                        validMovesArray.add(true);
+                        break;
+                    } else if (board[row - NERowCount][col + NEColCount]==CellState.EMPTY){
+                        reverseMap.clear();
+                        validMovesArray.add(false);
+                        break;
+                    }
+                    System.out.println("south" +reverseMap);
+                }
             }else if(key == "northWest"){
+                int NWRowCount = 1;
+                int NWColCount = 1;
+                while(row - NWRowCount >= 0|| col - NWColCount >= 0 || board[row - NWRowCount][col - NWColCount]==CellState.EMPTY ){
+                    if(board[row - NWRowCount][col - NWColCount]==oppositeColor){
+                        reverseMap.put(row - NWRowCount,col - NWColCount);
+                        NWRowCount ++;
+                        NWColCount ++;
+                    } else if (board[row - NWRowCount][col - NWColCount] == playersColor){
+                        reversePieces();
+                        validMovesArray.add(true);
+                        break;
+                    } else if (board[row - NWRowCount][col - NWColCount] == CellState.EMPTY){
+                        reverseMap.clear();
+                        validMovesArray.add(false);
+                        break;
+                    }
+                    System.out.println("south" +reverseMap);
+                }
 
             } else if (key =="southWest"){
+                int SWRowCount = 1;
+                int SWColCount = 1;
+                while(row + SWRowCount <= 7|| col - SWColCount >= 0 || board[row + SWRowCount][col - SWColCount]==CellState.EMPTY ){
+                    if(board[row + SWRowCount][col - SWColCount]==oppositeColor){
+                        reverseMap.put(row + SWRowCount,col - SWColCount);
+                        SWRowCount ++;
+                        SWColCount ++;
+                    } else if (board[row + SWRowCount][col - SWColCount] == playersColor){
+                        reversePieces();
+                        validMovesArray.add(true);
+                        break;
+                    } else if (board[row + SWRowCount][col - SWColCount] == CellState.EMPTY){
+                        reverseMap.clear();
+                        validMovesArray.add(false);
+                        break;
+                    }
+                    System.out.println("south" +reverseMap);
+                }
 
-            }else if (key =="southEast"){
-
+            }else if (key =="southEast"){ // southEast= board[row+1][col+1];
+                int SERowCount = 1;
+                int SEColCount = 1;
+                while(row + SERowCount <= 7|| col + SEColCount <= 7|| board[row + SERowCount][col + SEColCount]==CellState.EMPTY ){
+                    if(board[row + SERowCount][col + SEColCount]==oppositeColor){
+                        reverseMap.put(row + SERowCount,col + SEColCount);
+                        SERowCount ++;
+                        SEColCount ++;
+                    } else if (board[row + SERowCount][col + SEColCount] == playersColor){
+                        reversePieces();
+                        validMovesArray.add(true);
+                        break;
+                    } else if (board[row + SERowCount][col + SEColCount] == CellState.EMPTY){
+                        reverseMap.clear();
+                        validMovesArray.add(false);
+                        break;
+                    }
+                    System.out.println("south" +reverseMap);
+                }
             }else{
 
             }
