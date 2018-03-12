@@ -2,7 +2,6 @@ import javafx.scene.control.Cell;
 import processing.core.PApplet;
 import java.util.ArrayList;
 import java.util.*;
-
 import java.lang.reflect.Array;
 
 
@@ -25,7 +24,6 @@ public class MainApp extends PApplet {
     HashMap<Integer,Integer> reverseMap = new HashMap<>();
 
     public void settings() {
-        //size(1024,768);
         size(600, 600);
         smooth();
         rows = 8;
@@ -76,13 +74,11 @@ public class MainApp extends PApplet {
             drawGrid();
             drawPieces();
 
-            //show invalid move error message, need to format it better
+            //shows invalid move error message, need to format it better
 //            if (displayInvalidMove){
 //                //fill(255,0,0);
 //                text("invalid move", 400, 500);
 //             }
-
-
 
 
         }
@@ -148,13 +144,6 @@ public class MainApp extends PApplet {
         }
     }
 
-    //show the valid moves
-
-    //if box is valid move, fill it with highlighted color
-
-
-    //show whos turn
-
     // check if valid move
 
     void validMove(int row, int col){
@@ -162,18 +151,42 @@ public class MainApp extends PApplet {
         HashMap<String,CellState> oppositeColorDirections = new HashMap<>();
 
 
-        //set all the adjacent sides to variables
+        //sets all the adjacent sides to variables if they are in array bounds
+        CellState leftSide = null;
+        CellState rightSide = null;
+        CellState  north = null;
+        CellState  south = null;
+        CellState  northEast = null;
+        CellState  southWest = null;
+        CellState  northWest = null;
+        CellState  southEast= null;
 
-        CellState  leftSide = board[row][col -1];
-        CellState  rightSide = board[row][col +1];
-        CellState  north = board[row-1][col];
-        CellState  south = board[row+1][col];
-        CellState  northEast= board[row-1][col+1];
-        CellState  southWest = board[row+1][col -1];
-        CellState  northWest= board[row-1][col-1];
-        CellState  southEast= board[row+1][col+1];
+        if ((row >= 0) && (row < 8) && (col-1 >=0) && (col-1 < 8 )){
+            leftSide = board[row][col -1];
+        }
 
+        if ((row >= 0) && (row < 8) && (col+1 >=0) && (col+1 < 8 )){
+            rightSide = board[row][col +1];
+        }
 
+        if ((row-1 > 0) && (row-1 < 8) && (col >=0) && (col < 8 )){
+            north = board[row-1][col];
+        }
+        if ((row+1 >= 0) && (row+1 < 8) && (col >=0) && (col < 8 )){
+            south = board[row+1][col];
+        }
+        if ((row-1 >= 0) && (row-1 < 8) && (col+1 >=0) && (col+1 < 8 )){
+            northEast= board[row-1][col+1];
+        }
+        if ((row+1 >= 0) && (row+1 < 8) && (col-1 >=0) && (col-1 < 8 )){
+            southWest = board[row+1][col -1];
+        }
+        if ((row-1 >= 0) && (row-1 < 8) && (col-1 >=0) && (col-1 < 8 )){
+            northWest= board[row-1][col-1];
+        }
+        if ((row+1 >= 0) && (row+1 < 8) && (col+1 >=0) && (col+1 < 8 )){
+            southEast= board[row+1][col+1];
+        }
 
         // hashmap of all the adjacent cells
         HashMap<String,CellState> directionsMap = new HashMap<>();
@@ -344,7 +357,7 @@ public class MainApp extends PApplet {
                     System.out.println("south" +reverseMap);
                 }
 
-            }else if (key =="southEast"){ // southEast= board[row+1][col+1];
+            }else if (key =="southEast"){
                 int SERowCount = 1;
                 int SEColCount = 1;
                 while(row + SERowCount <= 7|| col + SEColCount <= 7|| board[row + SERowCount][col + SEColCount]==CellState.EMPTY ){
@@ -392,4 +405,14 @@ public class MainApp extends PApplet {
     }
 
 
+
 }
+
+
+//TO DO:
+//show the valid moves, if cell is a valid move, fill it with highlighted color.
+//pop up message when move is invalid.
+//show who's turn it's currently and score keeping
+//Show when the game is over and who has the highest score
+
+
