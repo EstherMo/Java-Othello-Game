@@ -224,6 +224,7 @@ public class MainApp extends PApplet {
                         break;
                     } else {
                         validMove = false;
+                        break;
                     }
                     System.out.println(reverseMap);
                 }
