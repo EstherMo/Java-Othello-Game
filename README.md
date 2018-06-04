@@ -1,4 +1,4 @@
-# SECA PROJECT 1: OTHELLO GAME
+# OTHELLO GAME
 
 ## Technologies Used
 
